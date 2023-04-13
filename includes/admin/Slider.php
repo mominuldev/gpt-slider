@@ -47,8 +47,8 @@ class Slider {
 			'featured_image'        => __( 'Featured Image', 'gpt-slider' ),
 			'set_featured_image'    => __( 'Set featured image', 'gpt-slider' ),
 			'remove_featured_image' => __( 'Remove featured image', 'gpt-slider' ),
-			'use_featured_image'    => __( 'Use as featured image', 'gpt-slider' ),
-		];
+			'use_featured_image'    => __( 'Use as featured image', 'gpt-slider' )
+		);
 
 		$args = array(
 			'label'               => __( 'Slider', 'gpt-slider' ),
