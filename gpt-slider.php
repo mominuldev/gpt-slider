@@ -18,6 +18,8 @@
 
 namespace GptSlider;
 use GpTheme\GptSlider\Admin\Menu;
+use GpTheme\GptSlider\Admin\MetaBox;
+use GpTheme\GptSlider\Admin\Slider;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -130,6 +132,8 @@ final class GptSlider {
 	public function admin_includes() {
 		// Include admin functions.
 		new Menu();
+		new Slider();
+		new MetaBox();
 	}
 
 	/**
