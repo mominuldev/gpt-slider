@@ -1,0 +1,17 @@
+{
+    "name": "momin/gpt-slider",
+    "description": "This is simple swiper slider wordpress plugin.",
+    "type": "wordpress-plugin",
+    "autoload": {
+        "psr-4": {
+            "GpTheme\\GptSlider\\": "includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mominul Islam",
+            "email": "mominulfed@gmail.com"
+        }
+    ],
+    "require": {}
+}
