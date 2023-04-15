@@ -63,10 +63,10 @@ class Slider {
 			'search_items'          => __( 'Search Item', 'gpt-slider' ),
 			'not_found'             => __( 'Not found', 'gpt-slider' ),
 			'not_found_in_trash'    => __( 'Not found in Trash', 'gpt-slider' ),
-			'featured_image'        => __( 'Featured Image', 'gpt-slider' ),
-			'set_featured_image'    => __( 'Set featured image', 'gpt-slider' ),
-			'remove_featured_image' => __( 'Remove featured image', 'gpt-slider' ),
-			'use_featured_image'    => __( 'Use as featured image', 'gpt-slider' )
+			'featured_image'        => __( 'Slider Image', 'gpt-slider' ),
+			'set_featured_image'    => __( 'Set Slider image', 'gpt-slider' ),
+			'remove_featured_image' => __( 'Remove Slider image', 'gpt-slider' ),
+			'use_featured_image'    => __( 'Use as Slider image', 'gpt-slider' )
 		);
 
 		$args = array(

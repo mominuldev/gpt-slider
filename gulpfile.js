@@ -23,7 +23,7 @@ const server = browserSync.create();
 // Paths for files.
 const paths = {
 	styles: {
-		src: ['assets/sass/app.scss', 'assets/sass/admin.scss'],
+		src: ['assets/sass/app.scss', 'assets/sass/admin.scss', 'assets/sass/metabox.scss'],
 		dest: 'assets/css'
 	},
 	images: {
@@ -80,7 +80,7 @@ const styles = () => {
 // Watch files for changes.
 const watch = () => {
 	gulp.watch('assets/sass/**/*.scss', styles);
-	gulp.watch('assets/js/**/*.js', gulp.series(scripts, reload));
+	// gulp.watch('assets/js/**/*.js', gulp.series(scripts, reload));
 	gulp.watch('**/*.php', reload);
 }
 

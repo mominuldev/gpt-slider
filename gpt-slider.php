@@ -17,9 +17,13 @@
  */
 
 namespace GptSlider;
-use GpTheme\GptSlider\Admin\Menu;
-use GpTheme\GptSlider\Admin\MetaBox;
-use GpTheme\GptSlider\Admin\Slider;
+//use GpTheme\GptSliders\Admin\Menu;
+//use GpTheme\GptSliders\Admin\MetaBox;
+//use GpTheme\GptSliders\Admin\Slider;
+
+use GpTheme\GptSlider\{Admin\Menu, Admin\MetaBox, Admin\Slider, Assets, Frontend\Shortcode};
+use GptSlider\GptSlider;
+
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -30,7 +34,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-final class GptSlider {
+final class GptSliders {
 	// Properties
 
 	/**
@@ -42,13 +46,13 @@ final class GptSlider {
 
 	/**
 	 * The single instance of the class.
-	 * @var GptSlider
+	 * @var GptSliders
 	 */
 
 	protected static $instance = null;
 
 	/**
-	 * GptSlider Constructor.
+	 * GptSliders Constructor.
 	 */
 
 	public function __construct() {
@@ -58,9 +62,9 @@ final class GptSlider {
 	}
 
 	/**
-	 * Main GptSlider Instance.
-	 * Ensures only one instance of GptSlider is loaded or can be loaded.
-	 * @return GptSlider - Main instance.
+	 * Main GptSliders Instance.
+	 * Ensures only one instance of GptSliders is loaded or can be loaded.
+	 * @return GptSliders - Main instance.
 	 */
 
 	public static function instance() {
@@ -79,8 +83,9 @@ final class GptSlider {
 	 */
 
 	private function init_hooks() {
-		register_activation_hook( __FILE__, array( 'GptSlider_Install', 'install' ) );
+//		register_activation_hook( __FILE__, array( 'GptSliders_Install', 'install' ) );
 		add_action( 'init', array( $this, 'init' ), 0 );
+		new Assets();
 	}
 
 	/**
@@ -94,7 +99,7 @@ final class GptSlider {
 		$this->define( 'GPT_SLIDER_ABSPATH', dirname( GPT_SLIDER_PLUGIN_FILE ) . '/' );
 		$this->define( 'GPT_SLIDER_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 		$this->define( 'GPT_SLIDER_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-		$this->define( 'GPT_SLIDER_INCLUDES', GPT_SLIDER_PLUGIN_PATH . 'includes/' );
+		$this->define( 'GPT_SLIDER_INCLUDES', GPT_SLIDER_PLUGIN_PATH . 'Includes/' );
 		$this->define( 'GPT_SLIDER_TEMPLATES', GPT_SLIDER_PLUGIN_PATH . 'templates/' );
 		$this->define( 'GPT_SLIDER_ASSETS', GPT_SLIDER_PLUGIN_URL . 'assets/' );
 		$this->define( 'GPT_SLIDER_CSS', GPT_SLIDER_PLUGIN_URL . 'assets/css/' );
@@ -122,6 +127,8 @@ final class GptSlider {
 	public function includes() {
 		if ( $this->is_request( 'admin' ) ) {
 			$this->admin_includes();
+		} else {
+			$this->frontend_includes();
 		}
 	}
 
@@ -134,6 +141,18 @@ final class GptSlider {
 		new Menu();
 		new Slider();
 		new MetaBox();
+
+	}
+
+	/**
+	 * Include required frontend files.
+	 */
+
+	public function frontend_includes() {
+		// Include frontend functions.
+		// Shortcodes
+		new Shortcode();
+
 	}
 
 	/**
@@ -189,7 +208,7 @@ final class GptSlider {
 // Kickstart the plugin
 if ( ! function_exists( 'gpt_slider' ) ) {
 	function gpt_slider() {
-		return GptSlider::instance();
+		return GptSliders::instance();
 	}
 }
 

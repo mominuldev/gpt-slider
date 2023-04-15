@@ -43,50 +43,47 @@ class Menu {
 
 	private function init_hooks() {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 9 );
+		add_action( 'admin_post_save_gpt_slider', [$this, 'admin_post_save_gpt_slider'] );
 	}
 
 	/**
 	 * Add menu items.
 	 */
 
+	public function get_admin_menu_list() {
+		$all_menu = array(
+			'dashboard' => array(
+				'title' => __( 'Dashboard', 'gpt-slider' ),
+				'capability' => 'manage_options',
+				'slug' => 'gpt_slider',
+				'callback' => array( $this, 'gpt_slider_dashboard_page' ),
+			),
+			'settings' => array(
+				'title' => __( 'Settings', 'gpt-slider' ),
+				'capability' => 'manage_options',
+				'slug' => 'gpt-slider-settings',
+				'callback' => array( $this, 'gpt_slider_settings_page' ),
+			),
+			'help_upgrade' => array(
+				'title' => __( 'Help and Upgrade', 'gpt-slider' ),
+				'capability' => 'manage_options',
+				'slug' => 'gpt-slider-help-upgrade',
+				'callback' => array( $this, 'gpt_slider_help_upgrade_page' ),
+			),
+		);
+
+		return apply_filters('gpt_slider_admin_menu_list', $all_menu);
+	}
+
 	public function admin_menu() {
-		add_menu_page(
-			__( 'GPT Slider', 'gpt-slider' ),
-			__( 'GPT Slider', 'gpt-slider' ),
-			'manage_options',
-			'gpt-slider',
-			array( $this, 'gpt_slider_dashboard_page' ),
-			'dashicons-images-alt2',
-			56 );
+		$all_menu = $this->get_admin_menu_list();
 
-		// Dashboard Submenu
-		add_submenu_page(
-			'gpt-slider',
-			__( 'Dashboard', 'gpt-slider' ),
-			__( 'Dashboard', 'gpt-slider' ),
-			'manage_options',
-			'gpt-dashboard',
-			array( $this, 'gpt_slider_dashboard_page' ) );
+		add_menu_page( __( 'GPT Slider', 'gpt-slider' ), __( 'GPT Slider', 'gpt-slider' ), 'manage_options', 'gpt_slider', [$this, 'gpt_slider_dashboard_page'], 'dashicons-images-alt2', 56);
 
-		// Register Settings Submenu
-		add_submenu_page(
-			'gpt-slider',
-			__( 'Settings', 'gpt-slider' ),
-			__( 'Settings', 'gpt-slider' ),
-			'manage_options',
-			'gpt-settings',
-			array( $this, 'gpt_slider_settings_page' )
-		);
+		foreach ( $all_menu as $key => $menu ) {
 
-		// Help and Upgrade Submenu
-		add_submenu_page(
-			'gpt-slider',
-			__( 'Help and Upgrade', 'gpt-slider' ),
-			__( 'Help and Upgrade', 'gpt-slider' ),
-			'manage_options',
-			'gpt-help-upgrade',
-			array( $this, 'gpt_slider_help_upgrade_page' )
-		);
+			add_submenu_page( 'gpt_slider', $menu['title'], $menu['title'], $menu['capability'], $menu['slug'], $menu['callback'] );
+		}
 	}
 
 	/**
@@ -111,5 +108,4 @@ class Menu {
 	public function gpt_slider_help_upgrade_page() {
 		include_once( dirname( __FILE__ ) . '/views/html-admin-help-upgrade.php' );
 	}
-
 }

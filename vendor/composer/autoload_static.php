@@ -16,7 +16,7 @@ class ComposerStaticInitdcaf1f150bc8a3b391a400f5763b2955
     public static $prefixDirsPsr4 = array (
         'GpTheme\\GptSlider\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/includes',
+            0 => __DIR__ . '/../..' . '/Includes',
         ),
     );
 

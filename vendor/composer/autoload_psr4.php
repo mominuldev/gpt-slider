@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'GpTheme\\GptSlider\\' => array($baseDir . '/includes'),
+    'GpTheme\\GptSlider\\' => array($baseDir . '/Includes'),
 );
