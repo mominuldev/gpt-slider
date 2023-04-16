@@ -140,8 +140,9 @@ final class GptSliders {
 		// Include admin functions.
 		new Menu();
 		new Slider();
-		new MetaBox();
+//		new MetaBox();
 
+		include plugin_dir_path(__FILE__) . '/includes/admin/slider-metabox.php';
 	}
 
 	/**

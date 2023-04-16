@@ -161,10 +161,6 @@ class MetaBox {
 		$button_links = $_POST['button_link'];
 		$image = $_POST['image'];
 
-//		if (isset($_POST['my_image_url'])) {
-//			update_post_meta($post_id, 'my_image_url', sanitize_text_field($_POST['my_image_url']));
-//		}
-
 		$items = array();
 
 		for ($i = 0; $i < count($titles); $i++) {
