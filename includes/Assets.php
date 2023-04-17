@@ -43,6 +43,9 @@ class Assets {
 
 	public function enqueue_scripts() {
 		wp_enqueue_style( 'gpt-slider', GPT_SLIDER_ASSETS . '/css/app.css', array(), GPT_SLIDER_VERSION );
+		// Swiper Slider
+		wp_enqueue_style( 'swiper', GPT_SLIDER_ASSETS . '/css/swiper-bundle.css', array(), GPT_SLIDER_VERSION );
+		wp_enqueue_script( 'swiper', GPT_SLIDER_ASSETS . '/js/swiper-bundle.min.js', array( 'jquery' ), GPT_SLIDER_VERSION, true );
 		wp_enqueue_script( 'gpt-slider', GPT_SLIDER_ASSETS . '/js/gpt-slider.js', array( 'jquery' ), GPT_SLIDER_VERSION, true );
 	}
 
