@@ -1,134 +1,208 @@
 <?php
 
 // Create custom metabox for repeater field
-function custom_repeater_metabox() {
+function gpt_repeater_metabox() {
 	add_meta_box(
-		'custom_repeater_metabox',
-		__( 'Custom Repeater Field', 'custom-repeater' ),
-		'custom_repeater_metabox_callback',
+		'gpt_repeater_metabox',
+		__( 'Slider Items', 'gpt-slider' ),
+		'gpt_repeater_metabox_callback',
 		'gpt_slider',
 		'normal',
 		'default'
 	);
 }
 
-add_action( 'add_meta_boxes', 'custom_repeater_metabox' );
+add_action( 'add_meta_boxes', 'gpt_repeater_metabox' );
 
 // Callback function for repeater metabox
-function custom_repeater_metabox_callback( $post ) {
-	wp_nonce_field( 'custom_repeater_metabox', 'custom_repeater_metabox_nonce' );
+function gpt_repeater_metabox_callback( $post ) {
+	wp_nonce_field( 'gpt_repeater_metabox', 'gpt_repeater_metabox_nonce' );
 
 	// Get existing repeater field values
-	$custom_repeater_values = get_post_meta( $post->ID, '_custom_repeater_values', true );
+	$custom_repeater_values = get_post_meta( $post->ID, '_gpt_slider_repeater_values', true );
 
 	// Create repeater field table
-	echo '<div class="custom-repeater-wrapper">';
-	echo '<table class="custom-repeater">';
-	echo '<thead><tr><th>Title</th><th>Description</th><th>Button Label</th><th>Button URL</th><th>Image</th><th></th></tr></thead>';
-	echo '<tbody>';
+	echo '<div class="gpt-slider-wrapper">';
+	echo '<div class="gpt-slider">';
+	echo '<div class="gpt-accordion">';
 	if($custom_repeater_values ) {
-	foreach ( $custom_repeater_values as $key => $value ) {
-		echo '<tr class="custom-repeater-row">';
-		echo '<td><input type="text" name="title[]" value="' . esc_attr( $value['title'] ) . '" /></td>';
-		echo '<td><textarea name="description[]">' . esc_textarea( $value['description'] ) . '</textarea></td>';
-		echo '<td><input type="text" name="button_label[]" value="' . esc_attr( $value['button_label'] ) . '" /></td>';
-		echo '<td><input type="text" name="button_url[]" value="' . esc_url( $value['button_url'] ) . '" /></td>';
-		echo '<td>';
-		echo '<div class="custom-media-field">';
-		echo '<div class="custom-media-preview">';
-		if ( $value['image'] ) {
-			echo '<img src="' . esc_url( wp_get_attachment_url( $value['image'] ) ) . '" alt="" style="max-width: 100%; max-height: 150px; display: block;" />';
+		foreach ( $custom_repeater_values as $key => $value ) {
+			$active = $key == 0 ? "style='display: block;'" : '';
+			$active_class = $key == 0 ? "active" : '';
+			echo '<div class="gpt-accordion-item">';
+			echo '<button class="list-heading '.$active_class.'"><h2>' . esc_attr($value['title']) . '</h2></button>';
+			echo '<div class="list-text" '.$active.'">';
+			echo '<div class="gpt-slider-item">';
+			echo '<div class="gpt-slider-item-field">';
+			echo '<label for="title-'.$key.'">Slider Title</label>';
+			echo '<input type="text" name="title[]" value="' . esc_attr( $value['title'] ) . '" id="title-'.$key.'" />';
+			echo '</div>';
+			echo '</div>';
+			echo '<div class="gpt-slider-item">';
+			echo '<div class="gpt-slider-item-field">';
+			echo '<label for="title-'.$key.'">Slider Description</label>';
+			echo '<textarea name="description[]" id="description-'.$key.'">' . esc_textarea( $value['description'] ) . '</textarea>';
+			echo '</div>';
+			echo '</div>';
+			echo '<div class="gpt-slider-item">';
+			echo '<div class="gpt-slider-item-field">';
+			echo '<label for="title-'.$key.'">Slider Button Label</label>';
+			echo '<input type="text" name="button_label[]" value="' . esc_attr( $value['button_label'] ) . '" id="button-'.$key.'" />';
+			echo '</div>';
+			echo '</div>';
+			echo '<div class="gpt-slider-item">';
+			echo '<div class="gpt-slider-item-field">';
+			echo '<label for="url-'.$key.'">Slider Button URL</label>';
+			echo '<input type="text" name="button_url[]" value="' . esc_url( $value['button_url'] ) . '" id="url-'.$key.'" />';
+			echo '</div>';
+			echo '</div>';
+			echo '<div class="gpt-slider-item">';
+			echo '<div class="gpt-slider-item-field">';
+			echo '<label for="image">Slider Image</label>';
+			echo '<div class="gpt-media-preview">';
+			if ( $value['image'] ) {
+				echo '<img src="' . esc_url( wp_get_attachment_url( $value['image'] ) ) . '" alt="" style="max-width: 100%; max-height: 150px; display: block;" />';
+			}
+			if ( $value['image'] ) {
+				echo  '<button type="button" class="button custom_remove_image_button"><svg xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 24 24" fill="none">
+                        <g id="Menu / Close_LG">
+                        <path id="Vector" d="M21 21L12 12M12 12L3 3M12 12L21.0001 3M12 12L3 21.0001" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        </svg>
+                        </button>';
+			}
+			echo '</div>';
+			echo '<input type="hidden" name="image[]" class="gpt-media-id" value="' . esc_attr( $value['image'] ) . '" />';
+			echo '<div>';
+            echo '<button type="button" class="button gpt-slider-media-upload">' . __( 'Select Image', 'gpt-slider' ) . '</button>';
+
+            echo '</div>';
+			echo '</div>';
+			echo '</div>';
+
+
+			echo '<div class="gpt-slider-item"><button type="button" class="button gpt-slider-remove">' . __( 'Remove', 'gpt-slider' ) . '</button></div>';
+			echo '</div>';
+			echo '</div>';
 		}
-		echo '</div>';
-		echo '<input type="hidden" name="image[]" class="custom-media-id" value="' . esc_attr( $value['image'] ) . '" />';
-		echo '<button type="button" class="button custom-media-upload">' . __( 'Select Image', 'custom-repeater' ) . '</button>';
-		echo '</div>';
-		echo '</td>';
-		echo '<td><button type="button" class="button custom-repeater-remove">' . __( 'Remove', 'custom-repeater' ) . '</button></td>';
-		echo '</tr>';
-	}
 	} else {
-		echo '<tr class="custom-repeater-row">';
-		echo '<td><input type="text" name="title[]" value="" /></td>';
-		echo '<td><textarea name="description[]"></textarea></td>';
-		echo '<td><input type="text" name="button_label[]" value="" /></td>';
-		echo '<td><input type="text" name="button_url[]" value="" /></td>';
-		echo '<td>';
-		echo '<div class="custom-media-field">';
-		echo '<div class="custom-media-preview">';
+		echo '<div class="gpt-slider-row">';
+		echo '<div class="gpt-slider-item">';
+		echo '<div class="gpt-slider-item-field">';
+		echo '<label for="title">Slider Title</label>';
+		echo '<input type="text" name="title[]" value="" id="tltle" />';
+		echo'</div>';
+		echo'</div>';
+		echo '<div class="gpt-slider-item">';
+		echo '<div class="gpt-slider-item-field">';
+		echo '<label for="description">Slider Description</label>';
+		echo '<textarea name="description[]" id="description"></textarea>';
 		echo '</div>';
-		echo '<input type="hidden" name="image[]" class="custom-media-id" value="" />';
-		echo '<button type="button" class="button custom-media-upload">' . __( 'Select Image', 'custom-repeater' ) . '</button>';
 		echo '</div>';
-		echo '</td>';
-		echo '<td><button type="button" class="button custom-repeater-remove">' . __( 'Remove', 'custom-repeater' ) . '</button></td>';
-		echo '</tr>';
+		echo '<div class="gpt-slider-item">';
+		echo '<div class="gpt-slider-item-field">';
+		echo '<label for="button_label">Slider Button Label</label>';
+		echo '<input type="text" name="button_label[]" value="" id="button_label" />';
+		echo '</div>';
+		echo '</div>';
+		echo '<div class="gpt-slider-item">';
+		echo '<div class="gpt-slider-item-field">';
+		echo '<label for="button_url">Slider Button URL</label>';
+		echo '<input type="text" name="button_url[]" value="" id="button_url" />';
+		echo '</div>';
+		echo '</div>';
+		echo '<div class="gpt-slider-item">';
+		echo '<div class="gpt-slider-item-field">';
+		echo '<label for="image">Slider Image</label>';
+		echo '<div class="gpt-media-preview">';
+		echo '<input type="hidden" name="image[]" class="gpt-media-id" value="" />';
+		echo '</div>';
+		echo '<button type="button" class="button gpt-slider-media-upload">' . __( 'Select Image', 'gpt-slider' ) . '</button>';
+		echo '</div>';
+		echo '</div>';
+		echo '</div>';
 	}
-	echo '</tbody>';
-	echo '</table>';
+
+	echo '</div>';
+	echo '</div>';
 
 	// Add button to add new repeater item
-	echo '<button type="button" class="button custom-repeater-add">' . __( 'Add Item', 'custom-repeater' ) . '</button>';
+	echo '<button type="button" class="button gpt-slider-add">' . __( 'Add Item', 'gpt-slider' ) . '</button>';
 	echo '</div>';
 
 	// JavaScript code to handle repeater field functionality
 	?>
-	<script>
-		jQuery(document).ready(function () {
-			// Handle repeater field remove item click
-			jQuery('.custom-repeater').on('click', '.custom-repeater-remove', function () {
-				jQuery(this).closest('tr').remove();
-			});
+    <script>
+        jQuery(document).ready(function () {
+            // Handle repeater field remove item click
+            jQuery('.gpt-slider').on('click', '.gpt-slider-remove', function () {
 
-			// Handle repeater field add item click
-			jQuery('.custom-repeater-wrapper').on('click', '.custom-repeater-add', function (e) {
-				var $tbody = jQuery('.custom-repeater tbody');
-				var $prototype = $tbody.find('tr.custom-repeater-row:first');
+                jQuery(this).closest('.gpt-accordion-item').remove();
+            });
 
-				var $row = $prototype.clone();
+            // Handle repeater field add item click
+            jQuery('.gpt-slider-wrapper').on('click', '.gpt-slider-add', function (e) {
+                var $tbody = jQuery('.gpt-accordion');
+                var $prototype = $tbody.find('.gpt-accordion-item:first');
 
-				// Reset field values
-				$row.find('input[type=text], input[type=url], textarea, select').val('');
-				$row.find('.custom-media-preview').html('');
-				$row.find('.custom-media-id').val('');
+                var $row = $prototype.clone();
 
-				// Append new row
-				$tbody.append($row);
-			});
+                // Reset field values
+                $row.find('input[type=text], input[type=url], textarea, select').val('');
+                $row.find('.gpt-media-preview').html('');
+                $row.find('.gpt-media-id').val('');
 
-			// Handle repeater field media upload
-			jQuery('.custom-repeater').on('click', '.custom-media-upload', function (e) {
-				e.preventDefault();
-				var $button = jQuery(this);
-				var $field = $button.closest('.custom-media-field');
-				var $preview = $field.find('.custom-media-preview');
-				var $id = $field.find('.custom-media-id');
+                // Append new row
+                $tbody.append($row);
+            });
 
-				var file_frame = wp.media.frames.file_frame = wp.media({
-					title: '<?php _e( 'Select or Upload Image', 'custom-repeater' ); ?>',
-					button: {
-						text: '<?php _e( 'Use this Image', 'custom-repeater' ); ?>',
-					},
-					multiple: false,
-				});
+            // Handle repeater field media upload
+            jQuery('.gpt-slider').on('click', '.gpt-slider-media-upload', function (e) {
+                e.preventDefault();
+                var $button = jQuery(this);
+                var $field = $button.closest('.gpt-slider-item');
+                var $preview = $field.find('.gpt-media-preview');
+                var $id = $field.find('.gpt-media-id');
 
-				file_frame.on('select', function () {
-					var attachment = file_frame.state().get('selection').first().toJSON();
-					$preview.html('<img src="' + attachment.url + '" alt="" style="max-width: 100%; max-height: 150px; display: block;" />');
-					$id.val(attachment.id);
-				});
+                var file_frame = wp.media.frames.file_frame = wp.media({
+                    title: '<?php _e( 'Select or Upload Image', 'gpt-slider' ); ?>',
+                    button: {
+                        text: '<?php _e( 'Use this Image', 'gpt-slider' ); ?>',
+                    },
+                    multiple: false,
+                });
 
-				file_frame.open();
-			});
-		});
-	</script>
+                file_frame.on('select', function () {
+                    var attachment = file_frame.state().get('selection').first().toJSON();
+                    $preview.html('<img src="' + attachment.url + '" alt="" style="max-width: 100%; max-height: 150px; display: block;" />');
+                    $id.val(attachment.id);
+                });
+
+                file_frame.open();
+            });
+
+            // Remove image
+            jQuery('.custom_remove_image_button').click(function() {
+                var answer = confirm('Are you sure?');
+                if (answer == true) {
+                    var $preview = jQuery(this).closest('.gpt-slider-item').find('.gpt-media-preview');
+                    var $id = jQuery(this).closest('.gpt-slider-item').find('.gpt-media-id');
+                    $preview.html('');
+                    $id.val('');
+                    return true;
+                }
+                return false;
+
+            });
+        });
+    </script>
 	<?php
 }
 
 // Save custom repeater field data
-function custom_repeater_save_metabox( $post_id ) {
+function gpt_slider_repeater_save_metabox( $post_id ) {
 	// Verify nonce
-	if ( ! isset( $_POST['custom_repeater_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['custom_repeater_metabox_nonce'], 'custom_repeater_metabox' ) ) {
+	if ( ! isset( $_POST['gpt_repeater_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['gpt_repeater_metabox_nonce'], 'gpt_repeater_metabox' ) ) {
 		return;
 	}
 
@@ -167,8 +241,8 @@ function custom_repeater_save_metabox( $post_id ) {
 		}
 	}
 
-	update_post_meta( $post_id, '_custom_repeater_values', $items );
+	update_post_meta( $post_id, '_gpt_slider_repeater_values', $items );
 }
 
 // Save custom repeater field data
-add_action( 'save_post', 'custom_repeater_save_metabox' );
+add_action( 'save_post', 'gpt_slider_repeater_save_metabox' );

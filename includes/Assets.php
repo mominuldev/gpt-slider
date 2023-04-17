@@ -42,7 +42,7 @@ class Assets {
 	 */
 
 	public function enqueue_scripts() {
-		wp_enqueue_style( 'gpt-slider', GPT_SLIDER_ASSETS . '/css/gpt-slider.css', array(), GPT_SLIDER_VERSION );
+		wp_enqueue_style( 'gpt-slider', GPT_SLIDER_ASSETS . '/css/app.css', array(), GPT_SLIDER_VERSION );
 		wp_enqueue_script( 'gpt-slider', GPT_SLIDER_ASSETS . '/js/gpt-slider.js', array( 'jquery' ), GPT_SLIDER_VERSION, true );
 	}
 

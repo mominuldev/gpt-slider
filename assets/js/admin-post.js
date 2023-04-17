@@ -114,3 +114,28 @@
 //
 //
 //
+
+jQuery(document).ready(function ($) {
+$('.list-heading').on('click', function(e) {
+    e.preventDefault();
+    if ($(this).hasClass('active')) {
+        $(this).removeClass('active');
+        $(this).next()
+            .stop()
+            .slideUp(300);
+    } else {
+        $(this).addClass('active');
+        $(this).next()
+            .stop()
+            .slideDown(300);
+    }
+});
+
+    $('.custom_remove_image_button').click(function() {
+        $('#custom-image-upload').val('');
+        $(this).hide(); // hide the remove button after the image is removed
+
+        // remove the image preview
+        $('.slider-image-preview').attr('src', '');
+    });
+});
